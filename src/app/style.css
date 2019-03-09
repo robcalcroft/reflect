@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+  color: #333333;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f9fbff;
+}

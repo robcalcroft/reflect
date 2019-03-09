@@ -1,0 +1,10 @@
+.board__container {
+  flex: 1;
+  display: flex;
+  overflow: auto;
+}
+
+.board__container__inner {
+  min-height: min-content;
+  display: flex;
+}
