@@ -34,3 +34,25 @@ export const DELETE_CARD = gql`
     deleteCard(id: $id)
   }
 `;
+
+export const NEW_CARD = gql`
+  mutation newCard(
+    $name: String
+    $listId: ID
+    $description: String
+    $position: Int
+  ) {
+    newCard(
+      name: $name
+      listId: $listId
+      description: $description
+      position: $position
+    ) {
+      id
+      name
+      description
+      createdAt
+      position
+    }
+  }
+`;

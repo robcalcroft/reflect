@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Droppable } from 'react-beautiful-dnd';
-import Card from '../Card';
+import Card, { NewCard } from '../Card';
 import './style.css';
 
 function List({ name, createdAt, cards, id, boardId }) {
@@ -49,6 +49,7 @@ function List({ name, createdAt, cards, id, boardId }) {
                   />
                 )
               )}
+            <NewCard listId={id} newPosition={cards.length - 1} />
           </div>
           {provided.placeholder}
         </div>

@@ -8,3 +8,9 @@
   display: flex;
   align-items: center;
 }
+
+.card--new {
+  flex-direction: column;
+  justify-content: center;
+  align-items: initial;
+}

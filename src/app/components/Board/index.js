@@ -18,17 +18,18 @@ function Board({
 }) {
   function handleUpdateCardPositions(dragEndArguments) {
     if (!dragEndArguments.destination) return;
+    if (dragEndArguments.destination.index === dragEndArguments.source.index) {
+      return;
+    }
 
     const listId = dragEndArguments.source.droppableId;
     const { cards } = lists.find(list => list.id === listId);
     const [removed] = cards.splice(dragEndArguments.source.index, 1);
     cards.splice(dragEndArguments.destination.index, 0, removed);
-    const cardsWithUpdatedPosition = cards.map((card, index) => {
-      return {
-        ...card,
-        position: index,
-      };
-    });
+    const cardsWithUpdatedPosition = cards.map((card, index) => ({
+      ...card,
+      position: index,
+    }));
 
     client.mutate({
       mutation: UPDATE_CARD_POSITIONS,

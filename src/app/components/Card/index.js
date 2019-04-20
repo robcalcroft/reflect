@@ -3,19 +3,11 @@ import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Draggable } from 'react-beautiful-dnd';
-import { GET_LISTS, DELETE_CARD } from '../../queries';
+import { DELETE_CARD } from '../../queries';
 import './style.css';
+import modifyCards from '../../modifyCards';
 
-function Card({
-  id,
-  name,
-  description,
-  createdAt,
-  index,
-  client,
-  boardId,
-  listId,
-}) {
+function Card({ id, name, description, createdAt, index, client, listId }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   function handleDeleteClick() {
@@ -29,31 +21,12 @@ function Card({
         setIsDeleting(false);
       },
       update(proxy) {
-        let data = {};
-
-        try {
-          data = proxy.readQuery({
-            query: GET_LISTS,
-            variables: { boardId },
-          });
-        } catch (error) {
-          window.location.reload();
-          return;
-        }
-
-        const { lists } = data;
-        const isThisList = list => list.id === listId;
-        const listIndex = lists.findIndex(isThisList);
-        const { cards } = lists.find(isThisList);
-        const updatedCards = cards.filter(card => card.id !== id);
-        lists[listIndex] = {
-          ...lists[listIndex],
-          cards: updatedCards,
-        };
-
-        proxy.writeQuery({
-          query: GET_LISTS,
-          data: { lists },
+        modifyCards({
+          proxy,
+          listId,
+          modify(cards) {
+            return cards.filter(card => card.id !== id);
+          },
         });
       },
     });
@@ -74,8 +47,12 @@ function Card({
             <div>
               Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
             </div>
-            <button type="button" onClick={handleDeleteClick}>
-              {isDeleting ? 'Deleting...' : 'Delete'}
+            <button
+              onClick={handleDeleteClick}
+              disabled={isDeleting}
+              type="button"
+            >
+              Delete
             </button>
           </div>
         </div>
@@ -86,7 +63,6 @@ function Card({
 
 Card.propTypes = {
   id: PropTypes.string.isRequired,
-  boardId: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -98,3 +74,5 @@ Card.propTypes = {
 };
 
 export default withApollo(React.memo(Card));
+
+export { default as NewCard } from './NewCard';

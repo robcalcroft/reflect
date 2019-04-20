@@ -5,10 +5,3 @@
   border-radius: 4px;
   margin-right: 1rem;
 }
-
-@media (min-width: 768px) {
-  .list {
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-}
