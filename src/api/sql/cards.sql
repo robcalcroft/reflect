@@ -3,7 +3,7 @@ create table cards (
 	name text not null,
 	list_id int not null references lists(list_id) on delete cascade on update cascade,
 	owner_id int not null references users(user_id) on delete cascade on update cascade,
-    description text,
+    	description text,
 	created_at timestamptz default now(),
 	position int not null
 );
