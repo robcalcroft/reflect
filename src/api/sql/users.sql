@@ -3,6 +3,5 @@ create table users(
 	name text not null,
 	email_address text unique not null,
 	password text not null,
-	salt text not null,
 	created_at timestamptz default now()
 );
