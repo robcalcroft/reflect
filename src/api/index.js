@@ -11,11 +11,11 @@ const resolvers = {
   Query: {
     boards: (_, __, { user }) =>
       database
-        .query('select * from "Boards" where owner = $1', [user.id])
+        .query('select * from boards where user_id = $1', [user.id])
         .then(getRows),
     lists: (_, { boardId }) =>
       database
-        .query('select * from "Lists" where board = $1', [boardId])
+        .query('select * from lists where board_id = $1', [boardId])
         .then(getRows),
   },
   Mutation: {
@@ -26,7 +26,7 @@ const resolvers = {
 
       return database
         .query(
-          'insert into "Boards" (name, owner) values ($1, $2) returning *',
+          'insert into boards (name, user_id) values ($1, $2) returning *',
           [name, user.id]
         )
         .then(getRows)
@@ -34,7 +34,7 @@ const resolvers = {
     },
     deleteBoard: async (_, { id }) => {
       const response = await database.query(
-        'delete from "Boards" where id = $1',
+        'delete from boards where id = $1',
         [id]
       );
 
@@ -46,7 +46,7 @@ const resolvers = {
 
       return true;
     },
-    newList: (_, { name, boardId }) => {
+    newList: (_, { name, boardId }, { user }) => {
       if (!name) {
         throw new UserInputError('You must give a name to the board');
       }
@@ -57,17 +57,16 @@ const resolvers = {
 
       return database
         .query(
-          'insert into "Lists" (name, board) values ($1, $2) returning *',
-          [name, boardId]
+          'insert into lists (name, board_id, user_id) values ($1, $2, $3) returning *',
+          [name, boardId, user.id]
         )
         .then(getRows)
         .then(getFirst);
     },
     deleteList: async (_, { id }) => {
-      const response = await database.query(
-        'delete from "Lists" where id = $1',
-        [id]
-      );
+      const response = await database.query('delete from lists where id = $1', [
+        id,
+      ]);
 
       if (response.rowCount === 0) {
         throw new UserInputError(
@@ -77,7 +76,7 @@ const resolvers = {
 
       return true;
     },
-    newCard: (_, { name, listId, description, position }) => {
+    newCard: (_, { name, listId, description, position }, { user }) => {
       if (!name) {
         throw new UserInputError('You must give a name to the card');
       }
@@ -88,17 +87,16 @@ const resolvers = {
 
       return database
         .query(
-          'insert into "Cards" (list, name, description, position) values ($1, $2, $3, $4) returning *',
-          [listId, name, description, position]
+          'insert into cards (list_id, name, description, position, user_id) values ($1, $2, $3, $4, $5) returning *',
+          [listId, name, description, position, user.id]
         )
         .then(getRows)
         .then(getFirst);
     },
     deleteCard: async (_, { id }) => {
-      const response = await database.query(
-        'delete from "Cards" where id = $1',
-        [id]
-      );
+      const response = await database.query('delete from cards where id = $1', [
+        id,
+      ]);
 
       if (response.rowCount === 0) {
         throw new UserInputError(
@@ -116,7 +114,7 @@ const resolvers = {
         const currentCard = cards[index];
         updates.push(
           database.query(
-            'update "Cards" set position = $1 where id = $2 returning *',
+            'update cards set position = $1 where id = $2 returning *',
             [currentCard.position, currentCard.id]
           )
         );
@@ -129,7 +127,7 @@ const resolvers = {
   List: {
     cards: ({ id: listId }) =>
       database
-        .query('select * from "Cards" where list = $1', [listId])
+        .query('select * from cards where list_id = $1', [listId])
         .then(getRows),
   },
 };
@@ -139,7 +137,7 @@ const server = new ApolloServer({
   resolvers,
   context: async () => ({
     user: await database
-      .query('select * from "WebUsers" where id = 1')
+      .query('select * from users where id = 1')
       .then(getRows)
       .then(getFirst),
   }),

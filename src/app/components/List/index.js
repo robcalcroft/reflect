@@ -33,7 +33,7 @@ function List({ name, createdAt, cards, id, boardId }) {
                     id: cardId,
                     name: cardName,
                     description: cardDescription,
-                    createdAt: cardCreatedAt,
+                    created_at: cardCreatedAt,
                   },
                   index
                 ) => (

@@ -5,12 +5,12 @@ export const GET_LISTS = gql`
     lists(boardId: $boardId) {
       id
       name
-      createdAt
+      created_at
       cards {
         id
         name
         description
-        createdAt
+        created_at
         position
       }
     }
@@ -23,7 +23,7 @@ export const UPDATE_CARD_POSITIONS = gql`
       id
       name
       description
-      createdAt
+      created_at
       position
     }
   }
@@ -51,7 +51,7 @@ export const NEW_CARD = gql`
       id
       name
       description
-      createdAt
+      created_at
       position
     }
   }
