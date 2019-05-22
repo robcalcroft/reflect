@@ -50,7 +50,7 @@ function NewCard({ client, listId, newPosition }) {
                 id: tempId,
                 name,
                 description,
-                createdAt: tempId,
+                created_at: tempId,
                 position: newPosition + 1,
               });
               return cards;

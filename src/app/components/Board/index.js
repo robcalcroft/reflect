@@ -58,7 +58,7 @@ function Board({
               ({
                 id: listId,
                 name: listName,
-                createdAt: listCreatedAt,
+                created_at: listCreatedAt,
                 cards,
               }) => (
                 <List

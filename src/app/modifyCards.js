@@ -9,7 +9,7 @@ export default function modifyCards({ proxy, listId, modify }) {
         id
         name
         description
-        createdAt
+        created_at
         position
       }
     }

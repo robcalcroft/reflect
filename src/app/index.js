@@ -17,7 +17,7 @@ const GET_BOARDS = gql`
     boards {
       id
       name
-      createdAt
+      created_at
     }
   }
 `;
@@ -33,7 +33,7 @@ export default function App() {
               if (loading) return 'Loading...';
               if (error) return `Error ${error.message}`;
 
-              return data.boards.map(({ id, name, createdAt }) => (
+              return data.boards.map(({ id, name, created_at: createdAt }) => (
                 <Board
                   key={`board${id}`}
                   id={id}

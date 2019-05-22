@@ -4,21 +4,22 @@ module.exports = gql`
   type User {
     id: ID!
     name: String!
-    emailAddress: String!
+    email_address: String!
     password: String!
+    created_at: String!
   }
 
   type Board {
     id: ID!
     name: String!
-    owner: User!
-    createdAt: String!
+    user_id: User!
+    created_at: String!
   }
 
   type List {
     id: ID!
     name: String!
-    createdAt: String!
+    created_at: String!
     cards: [Card!]
   }
 
@@ -26,7 +27,7 @@ module.exports = gql`
     id: ID!
     name: String!
     description: String
-    createdAt: String!
+    created_at: String!
     position: Int!
   }
 
