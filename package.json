@@ -34,7 +34,7 @@
     "start:app": "parcel src/app/index.html --open",
     "build:app": "parcel build src/app/index.html",
     "lint:js": "eslint .",
-    "lint:css": "prettier src/app/**/*.css --list-different",
+    "lint:css": "prettier src/app/**/*.css --check",
     "test": "run-p lint:*"
   },
   "devDependencies": {
