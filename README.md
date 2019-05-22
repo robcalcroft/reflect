@@ -16,6 +16,16 @@ Add a `.env` file in the root of the project. You will need to add config for co
 
 Just run `yarn` in the root of the project.
 
+### Setting up the database
+
+Run `yarn db:init` to create the database, create the tables and insert some initial data.
+
+### Start the app
+
+```sh
+yarn start
+```
+
 ### Scripts
 
 For a list of all scripts see the `scripts` field in the [package.json](package.json).
