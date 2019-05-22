@@ -1,4 +1,4 @@
-# Reflect
+# Reflect [![CircleCI](https://circleci.com/gh/robcalcroft/reflect/tree/master.svg?style=svg)](https://circleci.com/gh/robcalcroft/reflect/tree/master)
 
 ## Developing locally
 
