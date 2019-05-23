@@ -22,12 +22,15 @@ function NewCard({ client, listId, newPosition }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    const tempId = Math.floor(Math.random() * Math.floor(10e5)).toString();
 
     if (!name) {
       alert('Nope');
       return;
     }
 
+    setNameWithoutEvent('');
+    setDescriptionWithoutEvent('');
     setCreatingNewCard(true);
 
     client
@@ -39,30 +42,34 @@ function NewCard({ client, listId, newPosition }) {
           listId,
           position: newPosition + 1,
         },
-        update(proxy) {
-          const tempId = String(Math.floor(new Date().getTime()));
+        optimisticResponse: {
+          newCard: {
+            created_at: new Date().getTime().toString(),
+            description,
+            id: tempId,
+            name,
+            position: newPosition + 1,
+            __typename: 'Card',
+          },
+        },
+        update(
+          proxy,
+          {
+            data: { newCard },
+          }
+        ) {
           modifyCards({
             proxy,
             listId,
             modify(cards) {
-              cards.push({
-                __typename: 'Card',
-                id: tempId,
-                name,
-                description,
-                created_at: tempId,
-                position: newPosition + 1,
-              });
+              cards.push({ ...newCard });
               return cards;
             },
           });
         },
       })
-      .then(() => {
-        setCreatingNewCard(false);
-        setDescriptionWithoutEvent('');
-        setNameWithoutEvent('');
-      });
+      .then(() => setCreatingNewCard(false))
+      .catch(error => alert(error.message));
   }
 
   return (
