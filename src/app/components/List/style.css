@@ -5,3 +5,7 @@
   border-radius: 4px;
   margin-right: 1rem;
 }
+
+.list__cards-container {
+  paddingtop: 1rem;
+}
