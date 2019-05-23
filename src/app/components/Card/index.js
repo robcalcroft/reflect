@@ -12,24 +12,26 @@ function Card({ id, name, description, createdAt, index, client, listId }) {
 
   function handleDeleteClick() {
     setIsDeleting(true);
-    client.mutate({
-      mutation: DELETE_CARD,
-      variables: {
-        id,
-      },
-      onError() {
-        setIsDeleting(false);
-      },
-      update(proxy) {
-        modifyCards({
-          proxy,
-          listId,
-          modify(cards) {
-            return cards.filter(card => card.id !== id);
-          },
-        });
-      },
-    });
+    client
+      .mutate({
+        mutation: DELETE_CARD,
+        variables: {
+          id,
+        },
+        optimisticResponse: {
+          deleteCard: true,
+        },
+        update(proxy) {
+          modifyCards({
+            proxy,
+            listId,
+            modify(cards) {
+              return cards.filter(card => card.id !== id);
+            },
+          });
+        },
+      })
+      .catch(error => alert(error.message));
   }
 
   return (
