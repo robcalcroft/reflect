@@ -24,7 +24,7 @@ function List({ name, createdAt, cards, id, boardId }) {
           <div>
             Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
           </div>
-          <div style={{ paddingTop: '1rem' }}>
+          <div className="list__cards-container">
             {cards
               .sort(sortCards)
               .map(
@@ -49,9 +49,9 @@ function List({ name, createdAt, cards, id, boardId }) {
                   />
                 )
               )}
+            {provided.placeholder}
             <NewCard listId={id} newPosition={cards.length - 1} />
           </div>
-          {provided.placeholder}
         </div>
       )}
     </Droppable>
