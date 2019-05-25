@@ -11,9 +11,10 @@ module.exports = gql`
 
   type Board {
     id: ID!
+    createdAt: String!
+    lists: [List!]
     name: String!
     userId: User!
-    createdAt: String!
   }
 
   type List {
@@ -37,8 +38,8 @@ module.exports = gql`
   }
 
   type Query {
+    board(id: ID!): Board
     boards: [Board!]
-    lists(boardId: ID!): [List!]
   }
 
   type Mutation {

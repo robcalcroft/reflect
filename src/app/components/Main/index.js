@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Router from '../Router';
 import './style.css';
 
-const Main = ({ children }) => <div className="main">{children}</div>;
-
-Main.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default Main;
+export default function Main() {
+  return (
+    <main className="main">
+      <Router />
+    </main>
+  );
+}

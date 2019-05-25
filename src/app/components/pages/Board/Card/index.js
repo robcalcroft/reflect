@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Draggable } from 'react-beautiful-dnd';
-import { DELETE_CARD } from '../../queries';
+import { DELETE_CARD } from '../../../../queries';
 import './style.css';
-import modifyCards from '../../modifyCards';
+import modifyCards from '../../../../modifyCards';
 
 function Card({ id, name, description, createdAt, index, client, listId }) {
   const [isDeleting, setIsDeleting] = useState(false);

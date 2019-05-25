@@ -4,7 +4,7 @@
   overflow: auto;
 }
 
-.board__container__inner {
+.board__container-inner {
   min-height: min-content;
   display: flex;
 }

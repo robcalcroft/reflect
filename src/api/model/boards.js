@@ -23,6 +23,11 @@ module.exports.deleteBoard = async id => {
   return formatRow(result.rows && result.rows[0]);
 };
 
+module.exports.getBoard = async id => {
+  const result = await pool.query('select * from boards where id = $1', [id]);
+  return formatRow(result.rows && result.rows[0]);
+};
+
 module.exports.getBoardsByUserId = async userId => {
   const result = await pool.query('select * from boards where user_id = $1', [
     userId,
