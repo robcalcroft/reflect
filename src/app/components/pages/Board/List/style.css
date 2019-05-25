@@ -1,6 +1,6 @@
 .list {
   width: 350px;
-  border: 6px solid #ff851b;
+  border: 6px solid var(--color-theme);
   padding: 1rem;
   border-radius: 4px;
   margin-right: 1rem;
