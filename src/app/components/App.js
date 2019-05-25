@@ -1,7 +1,6 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
-import Container from './Container';
 import Header from './Header';
 import Main from './Main';
 
@@ -12,10 +11,10 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <Container>
+      <>
         <Header />
         <Main />
-      </Container>
+      </>
     </ApolloProvider>
   );
 }
