@@ -1,15 +1,15 @@
+import { Link } from '@reach/router';
 import React from 'react';
-import PropTypes from 'prop-types';
 import './style.css';
 
-const Header = ({ children }) => (
-  <div className="header">
-    <div className="header__text">{children}</div>
-  </div>
-);
-
-Header.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default Header;
+export default function Header() {
+  return (
+    <div className="header">
+      <h1 className="header__text">
+        <Link className="header__link" to="/">
+          Reflect
+        </Link>
+      </h1>
+    </div>
+  );
+}

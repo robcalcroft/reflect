@@ -6,7 +6,12 @@
   padding: 0 1rem;
 }
 
-.header__text {
+.header__link {
   font-size: 20pt;
   font-weight: bold;
+  text-decoration: none;
+}
+
+.header__link:hover {
+  text-decoration: underline;
 }

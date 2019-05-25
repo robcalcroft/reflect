@@ -25,7 +25,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Container>
-        <Header>Reflect</Header>
+        <Header />
         <Main>
           <Query query={GET_BOARDS}>
             {({ loading, error, data }) => {
