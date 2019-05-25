@@ -30,13 +30,14 @@
     "db:drop": "node scripts/dropDb",
     "db:init": "run-s db:drop db:setup db:add-data",
     "db:setup": "node scripts/setupDb",
+    "format": "prettier --write \"**/*\"",
     "start": "run-p start:*",
     "start:api": "nodemon -q --watch src/api src/api/index.js",
     "start:app": "parcel src/app/index.html --open",
     "build:app": "parcel build src/app/index.html",
-    "lint:js": "eslint .",
-    "lint:css": "prettier src/app/**/*.css --check",
-    "test": "run-p lint:*"
+    "test": "run-p test:*",
+    "test:format": "prettier --check \"**/*\"",
+    "test:lint": "eslint ."
   },
   "devDependencies": {
     "autoprefixer": "^9.5.1",
