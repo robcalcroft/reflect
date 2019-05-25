@@ -14,9 +14,9 @@ const client = new ApolloClient({
 const GET_BOARDS = gql`
   query boards {
     boards {
+      createdAt
       id
       name
-      created_at
     }
   }
 `;
@@ -32,7 +32,7 @@ export default function App() {
               if (loading) return 'Loading...';
               if (error) return `Error ${error.message}`;
 
-              return data.boards.map(({ id, name, created_at: createdAt }) => (
+              return data.boards.map(({ id, name, createdAt }) => (
                 <Board
                   key={`board${id}`}
                   id={id}

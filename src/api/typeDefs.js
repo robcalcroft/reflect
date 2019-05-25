@@ -12,8 +12,8 @@ module.exports = gql`
   type Board {
     id: ID!
     name: String!
-    user_id: User!
-    created_at: String!
+    userId: User!
+    createdAt: String!
   }
 
   type List {
