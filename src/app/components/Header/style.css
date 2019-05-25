@@ -6,12 +6,11 @@
   padding: 0 1rem;
 }
 
-.header__link {
-  font-size: 20pt;
-  font-weight: bold;
-  text-decoration: none;
+.header__link,
+.header__link:hover {
+  color: inherit;
 }
 
-.header__link:hover {
-  text-decoration: underline;
+.header__text {
+  margin: 0;
 }

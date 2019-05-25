@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import './color.css';
-import './font.css';
-import './style.css';
+import './vars/color.css';
+import './vars/typography.css';
+import './global.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
