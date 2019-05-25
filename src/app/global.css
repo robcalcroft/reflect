@@ -1,0 +1,66 @@
+* {
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-gray);
+  font-family: 'Open Sans', sans-serif;
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height);
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: var(--font-weight-bold);
+  margin: var(--font-margin);
+}
+
+h1 {
+  font-size: var(--font-size-4);
+}
+
+h2 {
+  font-size: var(--font-size-3);
+}
+
+h3 {
+  font-size: var(--font-size-2);
+}
+
+h4 {
+  font-size: var(--font-size-1);
+}
+
+p {
+  margin: var(--font-margin);
+  margin-top: 0;
+}
+
+p + p {
+  margin: var(--font-margin);
+}
+
+small {
+  font-size: var(--font-size-0);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
