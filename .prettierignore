@@ -1,0 +1,4 @@
+.*
+*.lock
+*.sql
+dist
