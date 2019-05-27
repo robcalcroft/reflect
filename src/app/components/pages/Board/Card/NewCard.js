@@ -44,7 +44,7 @@ function NewCard({ client, listId, newPosition }) {
         },
         optimisticResponse: {
           newCard: {
-            created_at: new Date().getTime().toString(),
+            createdAt: new Date().getTime().toString(),
             description,
             id: tempId,
             name,

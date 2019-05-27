@@ -18,12 +18,12 @@ const QUERY = gql`
       lists {
         id
         name
-        created_at
+        createdAt
         cards {
           id
           name
           description
-          created_at
+          createdAt
           position
         }
       }
@@ -91,7 +91,7 @@ function Board(props) {
                     ({
                       id: listId,
                       name: listName,
-                      created_at: listCreatedAt,
+                      createdAt: listCreatedAt,
                       cards,
                     }) => (
                       <List
