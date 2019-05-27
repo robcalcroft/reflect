@@ -8,6 +8,7 @@
   "license": "None",
   "private": true,
   "dependencies": {
+    "@reach/router": "^1.2.1",
     "apollo-boost": "^0.4.0",
     "apollo-server": "^2.5.0",
     "date-fns": "^1.30.1",

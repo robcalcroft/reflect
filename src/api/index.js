@@ -2,7 +2,12 @@ require('dotenv').config();
 const { ApolloServer, UserInputError, ApolloError } = require('apollo-server');
 const { GraphQLError } = require('graphql');
 const typeDefs = require('./typeDefs');
-const { addBoard, deleteBoard, getBoardsByUserId } = require('./model/boards');
+const {
+  addBoard,
+  deleteBoard,
+  getBoard,
+  getBoardsByUserId,
+} = require('./model/boards');
 const {
   addCard,
   deleteCard,
@@ -11,11 +16,16 @@ const {
 } = require('./model/cards');
 const { addList, deleteList, getListsByBoardId } = require('./model/lists');
 const { getUser } = require('./model/users');
+const { NOT_FOUND_CODE } = require('../shared/constants');
 
 const resolvers = {
   Query: {
+    board: async (_, { id }) => {
+      const board = await getBoard(id);
+      if (!board) throw new UserInputError(NOT_FOUND_CODE);
+      return board;
+    },
     boards: (_, __, { user }) => getBoardsByUserId(user.id),
-    lists: (_, { boardId }) => getListsByBoardId(boardId),
   },
   Mutation: {
     newBoard: (_, { name }, { user }) => {
@@ -92,6 +102,9 @@ const resolvers = {
 
       return updateCardPositions(cards);
     },
+  },
+  Board: {
+    lists: ({ id }) => getListsByBoardId(id),
   },
   List: {
     cards: ({ id: listId }) => getCardsByListId(listId),

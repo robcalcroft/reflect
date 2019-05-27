@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
-import { NEW_CARD } from '../../queries';
+import { NEW_CARD } from '../../../../queries';
 import './style.css';
-import modifyCards from '../../modifyCards';
+import modifyCards from '../../../../modifyCards';
 
 function useInput(initialState = '', valueKey = 'value') {
   const [value, setValue] = useState(initialState);
