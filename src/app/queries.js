@@ -6,7 +6,7 @@ export const UPDATE_CARD_POSITIONS = gql`
       id
       name
       description
-      created_at
+      createdAt
       position
     }
   }
@@ -34,7 +34,7 @@ export const NEW_CARD = gql`
       id
       name
       description
-      created_at
+      createdAt
       position
     }
   }
