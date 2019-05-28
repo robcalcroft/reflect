@@ -8,6 +8,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { UPDATE_CARD_POSITIONS } from '../../../queries';
 import List from './List';
 import { NOT_FOUND_CODE } from '../../../../shared/constants';
+import Spinner from '../../Spinner';
 import './style.css';
 
 const QUERY = gql`
@@ -37,7 +38,7 @@ function Board(props) {
   return (
     <Query query={QUERY} variables={{ id }}>
       {({ loading, error, data }) => {
-        if (loading) return 'Loading...';
+        if (loading) return <Spinner />;
         if (error) {
           if (error.message.endsWith(NOT_FOUND_CODE))
             return <Redirect noThrow to="/" />;
