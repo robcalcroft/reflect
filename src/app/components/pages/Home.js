@@ -2,6 +2,7 @@ import { Link } from '@reach/router';
 import gql from 'graphql-tag';
 import React from 'react';
 import { Query } from 'react-apollo';
+import Spinner from '../Spinner';
 
 const GET_BOARDS = gql`
   query boards {
@@ -19,7 +20,7 @@ export default function Home() {
       <h2>Boards</h2>
       <Query query={GET_BOARDS}>
         {({ loading, error, data }) => {
-          if (loading) return 'Loading...';
+          if (loading) return <Spinner />;
           if (error) return `Error ${error.message}`;
 
           return (

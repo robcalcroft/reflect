@@ -1,0 +1,13 @@
+.spinner {
+  --diameter: 3rem;
+
+  animation: var(--animation-fade-in), var(--animation-spin);
+  border: calc(var(--diameter) / 8) solid var(--color-gray);
+  border-radius: 50%;
+  border-right-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  height: var(--diameter);
+  margin: var(--diameter) auto;
+  width: var(--diameter);
+}
