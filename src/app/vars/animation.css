@@ -1,15 +1,15 @@
 :root {
-  --animation-fade-in: e-fade-in 500ms var(--easing-standard);
-  --animation-spin: e-rotate 500ms linear infinite;
+  --animation-fade-in: fade-in 500ms var(--easing-standard);
+  --animation-spin: rotate 500ms linear infinite;
 }
 
-@keyframes e-rotate {
+@keyframes rotate {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes e-fade-in {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
