@@ -78,7 +78,7 @@ function NewCard({ client, listId, newPosition }) {
         <div>Name</div>
         <input id="name" value={name} onChange={setName} autoComplete="off" />
       </label>
-      <label htmlFor="name">
+      <label htmlFor="description">
         <div>Description</div>
         <input
           id="description"
