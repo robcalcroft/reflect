@@ -70,15 +70,16 @@ function NewCard({ client, listId, newPosition }) {
 
   return (
     <form onSubmit={handleSubmit} className="card card--new">
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */}
-      <label htmlFor="body">What do you want to say?</label>
-      <textarea
-        autoComplete="off"
-        id="body"
-        onChange={setBody}
-        rows="3"
-        value={body}
-      />
+      <label htmlFor="body">
+        What do you want to say?
+        <textarea
+          autoComplete="off"
+          id="body"
+          onChange={setBody}
+          rows="3"
+          value={body}
+        />
+      </label>
       <button disabled={creatingNewCard} type="submit">
         Create card
       </button>
