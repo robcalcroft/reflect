@@ -7,8 +7,7 @@ export default function modifyCards({ proxy, listId, modify }) {
     fragment getList on List {
       cards {
         id
-        name
-        description
+        body
         createdAt
         position
       }

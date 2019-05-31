@@ -1,15 +1,9 @@
 const pool = require('./pool');
 
-module.exports.addCard = async ({
-  description,
-  listId,
-  name,
-  position,
-  userId,
-}) => {
+module.exports.addCard = async ({ body, listId, position, userId }) => {
   const result = await pool.query(
-    'insert into cards (list_id, name, description, position, user_id) values ($1, $2, $3, $4, $5) returning id, name, list_id as "listId", user_id as "userId", description, created_at as "createdAt", position',
-    [listId, name, description, position, userId]
+    'insert into cards (list_id, body, position, user_id) values ($1, $2, $3, $4) returning id, body, list_id as "listId", user_id as "userId", created_at as "createdAt", position',
+    [listId, body, position, userId]
   );
   return result.rows && result.rows[0];
 };
@@ -21,7 +15,7 @@ module.exports.deleteCard = async id => {
 
 module.exports.getCardsByListId = async listId => {
   const result = await pool.query(
-    'select id, name, list_id as "listId", user_id as "userId", description, created_at as "createdAt", position from cards where list_id = $1',
+    'select id, body, list_id as "listId", user_id as "userId", created_at as "createdAt", position from cards where list_id = $1',
     [listId]
   );
   return result.rows || [];
@@ -33,7 +27,7 @@ module.exports.updateCardPositions = async cards => {
     const currentCard = cards[index];
     updates.push(
       pool.query(
-        'update cards set position = $1 where id = $2 returning id, name, list_id as "listId", user_id as "userId", description, created_at as "createdAt", position',
+        'update cards set position = $1 where id = $2 returning id, body, list_id as "listId", user_id as "userId", created_at as "createdAt", position',
         [currentCard.position, currentCard.id]
       )
     );

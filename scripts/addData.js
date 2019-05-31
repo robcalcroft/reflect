@@ -18,9 +18,8 @@ const { addUser } = require('../src/api/model/users');
     await addBoard({ name: 'Test board', userId: '1' });
     await addList({ boardId: '1', name: 'Test list', userId: '1' });
     await addCard({
-      description: 'Please add some more features to Reflect!',
+      body: 'Not enough features',
       listId: '1',
-      name: 'Not enough features',
       position: '1',
       userId: '1',
     });
