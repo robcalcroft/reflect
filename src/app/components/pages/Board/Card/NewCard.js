@@ -16,38 +16,34 @@ function useInput(initialState = '', valueKey = 'value') {
 }
 
 function NewCard({ client, listId, newPosition }) {
-  const [name, setName, setNameWithoutEvent] = useInput();
-  const [description, setDescription, setDescriptionWithoutEvent] = useInput();
+  const [body, setBody, setBodyWithoutEvent] = useInput();
   const [creatingNewCard, setCreatingNewCard] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
     const tempId = Math.floor(Math.random() * Math.floor(10e5)).toString();
 
-    if (!name) {
+    if (!body) {
       alert('Nope');
       return;
     }
 
-    setNameWithoutEvent('');
-    setDescriptionWithoutEvent('');
+    setBodyWithoutEvent('');
     setCreatingNewCard(true);
 
     client
       .mutate({
         mutation: NEW_CARD,
         variables: {
-          name,
-          description,
+          body,
           listId,
           position: newPosition + 1,
         },
         optimisticResponse: {
           newCard: {
+            body,
             createdAt: new Date().getTime().toString(),
-            description,
             id: tempId,
-            name,
             position: newPosition + 1,
             __typename: 'Card',
           },
@@ -74,17 +70,14 @@ function NewCard({ client, listId, newPosition }) {
 
   return (
     <form onSubmit={handleSubmit} className="card card--new">
-      <label htmlFor="name">
-        <div>Name</div>
-        <input id="name" value={name} onChange={setName} autoComplete="off" />
-      </label>
-      <label htmlFor="description">
-        <div>Description</div>
-        <input
-          id="description"
-          value={description}
-          onChange={setDescription}
+      <label htmlFor="body">
+        What do you want to say?
+        <textarea
           autoComplete="off"
+          id="body"
+          onChange={setBody}
+          rows="3"
+          value={body}
         />
       </label>
       <button disabled={creatingNewCard} type="submit">

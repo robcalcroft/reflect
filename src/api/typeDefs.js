@@ -26,8 +26,7 @@ module.exports = gql`
 
   type Card {
     id: ID!
-    name: String!
-    description: String
+    body: String!
     createdAt: String!
     position: Int!
   }
@@ -47,7 +46,7 @@ module.exports = gql`
     deleteBoard(id: ID): Boolean!
     newList(name: String, boardId: ID): List!
     deleteList(id: ID): Boolean!
-    newCard(name: String, listId: ID, description: String, position: Int): Card!
+    newCard(body: String, listId: ID, position: Int): Card!
     deleteCard(id: ID): Boolean!
     updateCardPositions(cards: [CardPositionInput!]): [Card!]!
   }

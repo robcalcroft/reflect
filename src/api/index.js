@@ -68,19 +68,10 @@ const resolvers = {
 
       return true;
     },
-    newCard: (_, { name, listId, description, position }, { user }) => {
-      if (!name) {
-        throw new UserInputError('You must give a name to the card');
-      }
-
-      if (!listId) {
-        throw new UserInputError('Cards require a list ID');
-      }
-
+    newCard: (_, { body, listId, position }, { user }) => {
       return addCard({
-        description,
+        body,
         listId,
-        name,
         position,
         userId: user.id,
       });

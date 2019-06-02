@@ -22,8 +22,7 @@ const QUERY = gql`
         createdAt
         cards {
           id
-          name
-          description
+          body
           createdAt
           position
         }

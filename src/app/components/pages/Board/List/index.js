@@ -27,28 +27,17 @@ function List({ name, createdAt, cards, id, boardId }) {
           <div className="list__cards-container">
             {cards
               .sort(sortCards)
-              .map(
-                (
-                  {
-                    id: cardId,
-                    name: cardName,
-                    description: cardDescription,
-                    createdAt: cardCreatedAt,
-                  },
-                  index
-                ) => (
-                  <Card
-                    key={`card${cardId}`}
-                    index={index}
-                    id={cardId}
-                    listId={id}
-                    boardId={boardId}
-                    name={cardName}
-                    description={cardDescription}
-                    createdAt={cardCreatedAt}
-                  />
-                )
-              )}
+              .map(({ id: cardId, body, createdAt: cardCreatedAt }, index) => (
+                <Card
+                  boardId={boardId}
+                  body={body}
+                  createdAt={cardCreatedAt}
+                  id={cardId}
+                  index={index}
+                  key={`card${cardId}`}
+                  listId={id}
+                />
+              ))}
             {provided.placeholder}
             <NewCard listId={id} newPosition={cards.length - 1} />
           </div>

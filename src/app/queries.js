@@ -4,8 +4,7 @@ export const UPDATE_CARD_POSITIONS = gql`
   mutation($cards: [CardPositionInput!]) {
     updateCardPositions(cards: $cards) {
       id
-      name
-      description
+      body
       createdAt
       position
     }
@@ -19,21 +18,10 @@ export const DELETE_CARD = gql`
 `;
 
 export const NEW_CARD = gql`
-  mutation newCard(
-    $name: String
-    $listId: ID
-    $description: String
-    $position: Int
-  ) {
-    newCard(
-      name: $name
-      listId: $listId
-      description: $description
-      position: $position
-    ) {
+  mutation newCard($body: String!, $listId: ID, $position: Int) {
+    newCard(body: $body, listId: $listId, position: $position) {
       id
-      name
-      description
+      body
       createdAt
       position
     }

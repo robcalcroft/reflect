@@ -7,7 +7,7 @@ import { DELETE_CARD } from '../../../../queries';
 import './style.css';
 import modifyCards from '../../../../modifyCards';
 
-function Card({ id, name, description, createdAt, index, client, listId }) {
+function Card({ id, body, createdAt, index, client, listId }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   function handleDeleteClick() {
@@ -44,8 +44,7 @@ function Card({ id, name, description, createdAt, index, client, listId }) {
           {...provided.dragHandleProps}
         >
           <div>
-            <div>{name}</div>
-            <div>{description}</div>
+            <div>{body}</div>
             <div>
               Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
             </div>
@@ -66,8 +65,7 @@ function Card({ id, name, description, createdAt, index, client, listId }) {
 Card.propTypes = {
   id: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   client: PropTypes.shape({
