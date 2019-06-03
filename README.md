@@ -16,16 +16,27 @@ Add a `.env` file in the root of the project. You will need to add config for co
 
 Just run `yarn` in the root of the project.
 
-### Setting up the database
-
-Run `yarn db:init` to create the database, create the tables and insert some initial data.
-
 ### Start the app
 
+Locally:
 ```sh
-yarn start
+$ yarn start
+```
+
+Docker:
+```sh
+$ docker-compose up -d && yarn start:app
 ```
 
 ### Scripts
 
 For a list of all scripts see the `scripts` field in the [package.json](package.json).
+
+### DB
+
+The DB runs the sql commands found in the db folder on startup. This is where all DB bootstraping should be done.
+
+We can run the db's cmd line tool with the following command
+```sh
+$ docker-compose exec database psql -U postgres
+```

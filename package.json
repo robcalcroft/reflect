@@ -26,10 +26,6 @@
     "node": "10"
   },
   "scripts": {
-    "db:add-data": "node scripts/addData",
-    "db:drop": "node scripts/dropDb",
-    "db:init": "run-s db:drop db:setup db:add-data",
-    "db:setup": "node scripts/setupDb",
     "format": "prettier --write \"**/*\"",
     "start": "run-p start:*",
     "start:api": "nodemon -q --watch src/api src/api/index.js",
