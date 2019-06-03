@@ -19,13 +19,15 @@ Just run `yarn` in the root of the project.
 ### Start the app
 
 Locally:
+
 ```sh
-$ yarn start
+yarn start
 ```
 
 Docker:
+
 ```sh
-$ docker-compose up -d && yarn start:app
+docker-compose up -d && yarn start:app
 ```
 
 ### Scripts
@@ -37,6 +39,7 @@ For a list of all scripts see the `scripts` field in the [package.json](package.
 The DB runs the sql commands found in the db folder on startup. This is where all DB bootstraping should be done.
 
 We can run the db's cmd line tool with the following command
+
 ```sh
-$ docker-compose exec database psql -U postgres
+docker-compose exec database psql -U postgres
 ```
