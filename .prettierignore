@@ -2,3 +2,5 @@
 *.lock
 *.sql
 dist
+Docker*
+docker*

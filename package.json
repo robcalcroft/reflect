@@ -32,7 +32,7 @@
     "start:app": "parcel src/app/index.html --open",
     "build:app": "parcel build src/app/index.html",
     "test": "run-p test:*",
-    "test:format": "prettier --check \"**/*\"",
+    "test:format": "prettier --check \"src/**/*\"",
     "test:lint": "eslint ."
   },
   "devDependencies": {
