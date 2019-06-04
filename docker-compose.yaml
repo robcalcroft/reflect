@@ -1,0 +1,26 @@
+version: "2.2"
+
+services: 
+  api: 
+    build: .
+    init: true
+    environment: 
+      PGUSER: postgres
+      # PGDATABASE: reflect 
+      PGHOST: database
+    ports: 
+      - "4000:4000"
+    links: 
+      - database
+
+  database: 
+    image: "postgres:alpine"
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_DB: reflect
+    expose: 
+      - "5432"
+    ports: # keep this port exposed if you want to run commands or test against local api
+      - "5432:5432"
+    volumes: 
+      - ./db:/docker-entrypoint-initdb.d/
