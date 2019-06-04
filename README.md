@@ -34,11 +34,11 @@ docker-compose up -d && yarn start:app
 
 For a list of all scripts see the `scripts` field in the [package.json](package.json).
 
-### DB
+### Database
 
 The DB runs the sql commands found in the db folder on startup. This is where all DB bootstraping should be done.
 
-We can run the db's cmd line tool with the following command
+We can run the database's cmd line tool with the following command
 
 ```sh
 docker-compose exec database psql -U postgres
