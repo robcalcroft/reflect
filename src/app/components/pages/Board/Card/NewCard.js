@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import useInput from 'react-use-input';
 import { withApollo } from 'react-apollo';
 import { NEW_CARD } from '../../../../queries';
-import './style.css';
 import modifyCards from '../../../../modifyCards';
-
-function useInput(initialState = '', valueKey = 'value') {
-  const [value, setValue] = useState(initialState);
-
-  function setValueFromEvent(event) {
-    setValue(event.target[valueKey]);
-  }
-
-  return [value, setValueFromEvent, setValue];
-}
+import './style.css';
 
 function NewCard({ client, listId, newPosition }) {
   const [body, setBody, setBodyWithoutEvent] = useInput();
-  const [creatingNewCard, setCreatingNewCard] = useState(false);
+  const [creatingNewCard, setCreatingNewCard] = React.useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();

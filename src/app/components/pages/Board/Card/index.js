@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
@@ -8,7 +8,7 @@ import './style.css';
 import modifyCards from '../../../../modifyCards';
 
 function Card({ id, body, createdAt, index, client, listId }) {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   function handleDeleteClick() {
     setIsDeleting(true);
