@@ -1,41 +1,21 @@
 import { Redirect } from '@reach/router';
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Query, withApollo } from 'react-apollo';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { UPDATE_CARD_POSITIONS } from '../../../queries';
+import { UPDATE_CARD_POSITIONS, GET_BOARD } from '../../../queries';
 import List from './List';
 import { NOT_FOUND_CODE } from '../../../../shared/constants';
+import NewList from './List/NewList';
 import Spinner from '../../Spinner';
 import './style.css';
-
-const QUERY = gql`
-  query board($id: ID!) {
-    board(id: $id) {
-      createdAt
-      name
-      lists {
-        id
-        name
-        createdAt
-        cards {
-          id
-          body
-          createdAt
-          position
-        }
-      }
-    }
-  }
-`;
 
 function Board(props) {
   const { client, id } = props;
 
   return (
-    <Query query={QUERY} variables={{ id }}>
+    <Query query={GET_BOARD} variables={{ id }}>
       {({ loading, error, data }) => {
         if (loading) return <Spinner />;
         if (error) {
@@ -104,6 +84,7 @@ function Board(props) {
                       />
                     )
                   )}
+                  <NewList boardId={id} />
                 </div>
               </div>
             </DragDropContext>

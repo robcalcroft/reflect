@@ -27,3 +27,33 @@ export const NEW_CARD = gql`
     }
   }
 `;
+
+export const NEW_LIST = gql`
+  mutation newList($name: String, $boardId: ID) {
+    newList(name: $name, boardId: $boardId) {
+      id
+      name
+      createdAt
+    }
+  }
+`;
+
+export const GET_BOARD = gql`
+  query board($id: ID!) {
+    board(id: $id) {
+      createdAt
+      name
+      lists {
+        id
+        name
+        createdAt
+        cards {
+          id
+          body
+          createdAt
+          position
+        }
+      }
+    }
+  }
+`;
