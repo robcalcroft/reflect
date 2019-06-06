@@ -1,15 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withApollo } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Droppable } from 'react-beautiful-dnd';
 import Card, { NewCard } from '../Card';
+import { DELETE_LIST, GET_BOARD } from '../../../../queries';
 import './style.css';
 
-function List({ name, createdAt, cards, id, boardId }) {
+function List({ name, createdAt, cards, id, boardId, client }) {
+  const [deletingList, setDeletingList] = React.useState(false);
+
   function sortCards({ position: positionOne }, { position: positionTwo }) {
     if (positionOne > positionTwo) return 1;
     if (positionOne < positionTwo) return -1;
     return 0;
+  }
+
+  function handleDeleteList() {
+    setDeletingList(true);
+    client
+      .mutate({
+        mutation: DELETE_LIST,
+        variables: {
+          id,
+        },
+        optimisticResponse: {
+          deleteList: true,
+        },
+        update(proxy) {
+          const variables = {
+            id: boardId,
+          };
+          try {
+            const data = proxy.readQuery({
+              query: GET_BOARD,
+              variables,
+            });
+            proxy.writeQuery({
+              query: GET_BOARD,
+              variables,
+              data: {
+                board: {
+                  ...data.board,
+                  lists: data.board.lists.filter(list => list.id !== id),
+                },
+              },
+            });
+          } catch (error) {
+            window.location.reload();
+          }
+        },
+      })
+      .catch(error => alert(error.message));
   }
 
   return (
@@ -24,6 +66,13 @@ function List({ name, createdAt, cards, id, boardId }) {
           <div>
             Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
           </div>
+          <button
+            type="button"
+            onClick={handleDeleteList}
+            disabled={deletingList}
+          >
+            Delete
+          </button>
           <div className="list__cards-container">
             {cards
               .sort(sortCards)
@@ -54,6 +103,11 @@ List.propTypes = {
   createdAt: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   cards: PropTypes.array.isRequired,
+  client: PropTypes.shape({
+    mutate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default React.memo(List);
+export default withApollo(React.memo(List));
+
+export { default as NewList } from './NewList';

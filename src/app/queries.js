@@ -38,6 +38,12 @@ export const NEW_LIST = gql`
   }
 `;
 
+export const DELETE_LIST = gql`
+  mutation deleteList($id: ID!) {
+    deleteList(id: $id)
+  }
+`;
+
 export const GET_BOARD = gql`
   query board($id: ID!) {
     board(id: $id) {

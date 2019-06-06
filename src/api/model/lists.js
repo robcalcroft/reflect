@@ -9,8 +9,8 @@ module.exports.addList = async ({ boardId, name, userId }) => {
 };
 
 module.exports.deleteList = async id => {
-  const result = pool.query('delete from lists where id = $1', [id]);
-  return result.rows && result.rows[0];
+  const result = await pool.query('delete from lists where id = $1', [id]);
+  return Boolean(result.rowCount);
 };
 
 module.exports.getListsByBoardId = async boardId => {

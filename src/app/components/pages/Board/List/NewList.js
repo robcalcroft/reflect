@@ -18,6 +18,7 @@ function NewList({ client, boardId }) {
 
     const tempId = Math.floor(Math.random() * Math.floor(10e5)).toString();
     setCreatingNewList(true);
+    setListNameRaw('');
 
     client
       .mutate({
@@ -69,10 +70,7 @@ function NewList({ client, boardId }) {
           }
         },
       })
-      .then(() => {
-        setCreatingNewList(false);
-        setListNameRaw('');
-      })
+      .then(() => setCreatingNewList(false))
       .catch(error => alert(error.message));
   }
 

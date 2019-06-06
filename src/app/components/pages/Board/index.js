@@ -5,9 +5,8 @@ import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { Query, withApollo } from 'react-apollo';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { UPDATE_CARD_POSITIONS, GET_BOARD } from '../../../queries';
-import List from './List';
+import List, { NewList } from './List';
 import { NOT_FOUND_CODE } from '../../../../shared/constants';
-import NewList from './List/NewList';
 import Spinner from '../../Spinner';
 import './style.css';
 
