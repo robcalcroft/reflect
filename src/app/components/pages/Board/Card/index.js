@@ -1,37 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withApollo } from 'react-apollo';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import { useMutation } from '@apollo/react-hooks';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { Draggable } from 'react-beautiful-dnd';
 import { DELETE_CARD } from '../../../../queries';
 import './style.css';
 import modifyCards from '../../../../modifyCards';
 
-function Card({ id, body, createdAt, index, client, listId }) {
+function Card({ id, body, createdAt, index, listId }) {
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [deleteCard] = useMutation(DELETE_CARD);
 
   function handleDeleteClick() {
     setIsDeleting(true);
-    client
-      .mutate({
-        mutation: DELETE_CARD,
-        variables: {
-          id,
-        },
-        optimisticResponse: {
-          deleteCard: true,
-        },
-        update(proxy) {
-          modifyCards({
-            proxy,
-            listId,
-            modify(cards) {
-              return cards.filter(card => card.id !== id);
-            },
-          });
-        },
-      })
-      .catch(error => alert(error.message));
+    deleteCard({
+      variables: {
+        id,
+      },
+      optimisticResponse: {
+        deleteCard: true,
+      },
+      update(proxy) {
+        modifyCards({
+          proxy,
+          listId,
+          modify(cards) {
+            return cards.filter(card => card.id !== id);
+          },
+        });
+      },
+    }).catch(error => alert(error.message));
   }
 
   return (
@@ -40,13 +38,15 @@ function Card({ id, body, createdAt, index, client, listId }) {
         <div
           className="card"
           ref={provided.innerRef}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...provided.draggableProps}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...provided.dragHandleProps}
         >
           <div>
             <div>{body}</div>
             <div>
-              Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
+              Created {formatDistanceToNow(new Date(Number(createdAt)))} ago
             </div>
             <button
               onClick={handleDeleteClick}
@@ -68,11 +68,8 @@ Card.propTypes = {
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  client: PropTypes.shape({
-    mutate: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default withApollo(React.memo(Card));
+export default React.memo(Card);
 
 export { default as NewCard } from './NewCard';

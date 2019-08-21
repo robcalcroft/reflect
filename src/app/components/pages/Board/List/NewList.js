@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useInput from 'react-use-input';
-import { withApollo } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { NEW_LIST, GET_BOARD } from '../../../../queries';
 
-function NewList({ client, boardId }) {
+function NewList({ boardId }) {
   const [listName, setListName, setListNameRaw] = useInput();
   const [creatingNewList, setCreatingNewList] = React.useState(false);
+  const [createNewList] = useMutation(NEW_LIST);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -20,56 +21,54 @@ function NewList({ client, boardId }) {
     setCreatingNewList(true);
     setListNameRaw('');
 
-    client
-      .mutate({
-        mutation: NEW_LIST,
-        variables: {
+    createNewList({
+      variables: {
+        name: listName,
+        boardId,
+      },
+      optimisticResponse: {
+        newList: {
+          id: tempId,
           name: listName,
-          boardId,
+          createdAt: new Date().getTime().toString(),
+          __typename: 'List',
         },
-        optimisticResponse: {
-          newList: {
-            id: tempId,
-            name: listName,
-            createdAt: new Date().getTime().toString(),
-            __typename: 'List',
-          },
-        },
-        update(
-          proxy,
-          {
-            data: { newList },
-          }
-        ) {
-          const variables = {
-            id: boardId,
-          };
-          try {
-            const data = proxy.readQuery({
-              query: GET_BOARD,
-              variables,
-            });
-            proxy.writeQuery({
-              query: GET_BOARD,
-              variables,
-              data: {
-                board: {
-                  ...data.board,
-                  lists: [
-                    ...data.board.lists,
-                    {
-                      ...newList,
-                      cards: [],
-                    },
-                  ],
-                },
+      },
+      update(
+        proxy,
+        {
+          data: { newList },
+        }
+      ) {
+        const variables = {
+          id: boardId,
+        };
+        try {
+          const data = proxy.readQuery({
+            query: GET_BOARD,
+            variables,
+          });
+          proxy.writeQuery({
+            query: GET_BOARD,
+            variables,
+            data: {
+              board: {
+                ...data.board,
+                lists: [
+                  ...data.board.lists,
+                  {
+                    ...newList,
+                    cards: [],
+                  },
+                ],
               },
-            });
-          } catch (error) {
-            window.location.reload();
-          }
-        },
-      })
+            },
+          });
+        } catch (error) {
+          window.location.reload();
+        }
+      },
+    })
       .then(() => setCreatingNewList(false))
       .catch(error => alert(error.message));
   }
@@ -85,8 +84,7 @@ function NewList({ client, boardId }) {
 }
 
 NewList.propTypes = {
-  client: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   boardId: PropTypes.string.isRequired,
 };
 
-export default withApollo(NewList);
+export default NewList;
