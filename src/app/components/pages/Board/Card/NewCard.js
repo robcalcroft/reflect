@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useInput from 'react-use-input';
-import { withApollo } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { NEW_CARD } from '../../../../queries';
 import modifyCards from '../../../../modifyCards';
 import './style.css';
 
-function NewCard({ client, listId, newPosition }) {
+function NewCard({ listId, newPosition }) {
   const [body, setBody, setBodyWithoutEvent] = useInput();
   const [creatingNewCard, setCreatingNewCard] = React.useState(false);
+  const [createNewCard] = useMutation(NEW_CARD);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -22,39 +23,37 @@ function NewCard({ client, listId, newPosition }) {
     setBodyWithoutEvent('');
     setCreatingNewCard(true);
 
-    client
-      .mutate({
-        mutation: NEW_CARD,
-        variables: {
+    createNewCard({
+      variables: {
+        body,
+        listId,
+        position: newPosition + 1,
+      },
+      optimisticResponse: {
+        newCard: {
           body,
-          listId,
+          createdAt: new Date().getTime().toString(),
+          id: tempId,
           position: newPosition + 1,
+          __typename: 'Card',
         },
-        optimisticResponse: {
-          newCard: {
-            body,
-            createdAt: new Date().getTime().toString(),
-            id: tempId,
-            position: newPosition + 1,
-            __typename: 'Card',
-          },
-        },
-        update(
+      },
+      update(
+        proxy,
+        {
+          data: { newCard },
+        }
+      ) {
+        modifyCards({
           proxy,
-          {
-            data: { newCard },
-          }
-        ) {
-          modifyCards({
-            proxy,
-            listId,
-            modify(cards) {
-              cards.push({ ...newCard });
-              return cards;
-            },
-          });
-        },
-      })
+          listId,
+          modify(cards) {
+            cards.push({ ...newCard });
+            return cards;
+          },
+        });
+      },
+    })
       .then(() => setCreatingNewCard(false))
       .catch(error => alert(error.message));
   }
@@ -79,11 +78,8 @@ function NewCard({ client, listId, newPosition }) {
 }
 
 NewCard.propTypes = {
-  client: PropTypes.shape({
-    mutate: PropTypes.func.isRequired,
-  }).isRequired,
   listId: PropTypes.string.isRequired,
   newPosition: PropTypes.number.isRequired,
 };
 
-export default withApollo(NewCard);
+export default NewCard;

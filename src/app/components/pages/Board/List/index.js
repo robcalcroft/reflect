@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withApollo } from 'react-apollo';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import { useMutation } from '@apollo/react-hooks';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { Droppable } from 'react-beautiful-dnd';
 import Card, { NewCard } from '../Card';
 import { DELETE_LIST, GET_BOARD } from '../../../../queries';
 import './style.css';
 
-function List({ name, createdAt, cards, id, boardId, client }) {
+function List({ name, createdAt, cards, id, boardId }) {
   const [deletingList, setDeletingList] = React.useState(false);
+  const [deleteList] = useMutation(DELETE_LIST);
 
   function sortCards({ position: positionOne }, { position: positionTwo }) {
     if (positionOne > positionTwo) return 1;
@@ -18,40 +19,37 @@ function List({ name, createdAt, cards, id, boardId, client }) {
 
   function handleDeleteList() {
     setDeletingList(true);
-    client
-      .mutate({
-        mutation: DELETE_LIST,
-        variables: {
-          id,
-        },
-        optimisticResponse: {
-          deleteList: true,
-        },
-        update(proxy) {
-          const variables = {
-            id: boardId,
-          };
-          try {
-            const data = proxy.readQuery({
-              query: GET_BOARD,
-              variables,
-            });
-            proxy.writeQuery({
-              query: GET_BOARD,
-              variables,
-              data: {
-                board: {
-                  ...data.board,
-                  lists: data.board.lists.filter(list => list.id !== id),
-                },
+    deleteList({
+      variables: {
+        id,
+      },
+      optimisticResponse: {
+        deleteList: true,
+      },
+      update(proxy) {
+        const variables = {
+          id: boardId,
+        };
+        try {
+          const data = proxy.readQuery({
+            query: GET_BOARD,
+            variables,
+          });
+          proxy.writeQuery({
+            query: GET_BOARD,
+            variables,
+            data: {
+              board: {
+                ...data.board,
+                lists: data.board.lists.filter(list => list.id !== id),
               },
-            });
-          } catch (error) {
-            window.location.reload();
-          }
-        },
-      })
-      .catch(error => alert(error.message));
+            },
+          });
+        } catch (error) {
+          window.location.reload();
+        }
+      },
+    }).catch(error => alert(error.message));
   }
 
   return (
@@ -60,11 +58,12 @@ function List({ name, createdAt, cards, id, boardId, client }) {
         <div
           className="list"
           ref={provided.innerRef}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...provided.droppableProps}
         >
           <div>{name}</div>
           <div>
-            Created {distanceInWordsToNow(new Date(Number(createdAt)))} ago
+            Created {formatDistanceToNow(new Date(Number(createdAt)))} ago
           </div>
           <button
             type="button"
@@ -103,11 +102,8 @@ List.propTypes = {
   createdAt: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   cards: PropTypes.array.isRequired,
-  client: PropTypes.shape({
-    mutate: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default withApollo(React.memo(List));
+export default React.memo(List);
 
 export { default as NewList } from './NewList';
