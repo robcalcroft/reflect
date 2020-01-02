@@ -4,7 +4,7 @@
   "description": "A retrospective tool for teams",
   "main": "index.js",
   "repository": "git@github.com:robcalcroft/reflect.git",
-  "author": "Rob Calcroft <rob@calcroft.com>",
+  "author": "Rob Calcroft <robcalcroft@users.noreply.github.com>",
   "license": "None",
   "private": true,
   "dependencies": {
